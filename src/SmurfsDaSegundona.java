@@ -24,40 +24,39 @@ public class SmurfsDaSegundona {
         //uma única linha contendo um único número inteiro.
 
         Scanner in = new Scanner(System.in);
-        int quantidadeChuteiras = 0, quantidadeParesPossiveisFormados = 0;
+        int shoesQuantity, pairsFormed = 0;
+        String allShoesString;
 
         System.out.println("Informe a quantidade de chuteiras seram relacionadas: ");
-        quantidadeChuteiras = in.nextInt();
-        String[] relacaoChuteiras = new String[quantidadeChuteiras];
+        shoesQuantity = in.nextInt();
+        String[] shoesList = new String[shoesQuantity];
 
         in.nextLine();
 
-        // Usuário informa dos valores
-        for (int i = 0; i < relacaoChuteiras.length; i++) {
+        for (int i = 0; i < shoesList.length; i++) {
             System.out.println("Informe a relação da chuteira para a posição " + (i + 1) + ": ");
-            relacaoChuteiras[i] = in.nextLine();
+            shoesList[i] = in.nextLine();
         }
 
-        String relacaoToda = Arrays.toString(relacaoChuteiras);
+        allShoesString = Arrays.toString(shoesList).toLowerCase();
 
-        // Quebra a string e obtém os valores de tamanho e lado do pé
-        for (int i = 0; i < relacaoChuteiras.length; i++) {
-            String[] relacaoAtual = relacaoChuteiras[i].split(" ");
+        for (int i = 0; i < shoesList.length; i++) {
+            String currentShoe = shoesList[i].toLowerCase();
+            String[] shoeDetails = currentShoe.split(" ");
 
-            String tamanhoPe = relacaoAtual[0];
-            String ladoDoPe = relacaoAtual[1];
-            String outroLadoQueFaltaPe = "";
+            String shoeSize = shoeDetails[0];
+            String shoeSide = shoeDetails[1];
+            String missingShoeSide = shoeSide.equals("e") ? "d" : "e";
 
-            // Compara quantos pares podem ser formados
-            if (ladoDoPe.equalsIgnoreCase("e")) outroLadoQueFaltaPe = "d";
-            else outroLadoQueFaltaPe = "e";
+            String searchString = shoeSize + " " + missingShoeSide;
 
-            String stringConsulta = tamanhoPe + " " + outroLadoQueFaltaPe;
-
-            if (relacaoToda.toLowerCase().contains(stringConsulta)) quantidadeParesPossiveisFormados++;
+            if (allShoesString.contains(currentShoe) && allShoesString.contains(searchString)) {
+                pairsFormed++;
+                allShoesString = allShoesString.replaceFirst(currentShoe, "usado");
+                allShoesString = allShoesString.replaceFirst(searchString, "usado");
+            }
         }
 
-        // Exibir resultado
-        System.out.println("De acordo com os dados informados podem ser formados " + (quantidadeParesPossiveisFormados / 2) + " pares de chuteiras.");
+        System.out.println("De acordo com os dados informados podem ser formados " + pairsFormed + " pares de chuteiras.");
     }
 }

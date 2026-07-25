@@ -28,41 +28,48 @@ public class AlbumDaCopa {
         *  */
 
         Scanner in = new Scanner(System.in);
+        int albumSize, boughtStickersQuantity, uniqueStickersCount = 0, missingStickers;
+        boolean isDuplicate;
 
         System.out.println("Digite o tamanho do albúm:");
-        int tamanhoVetor = in.nextInt();
+        albumSize = in.nextInt();
 
         System.out.println("Quantas figurinhas foram compradas:");
-        int quantidadeCompradas = in.nextInt();
+        boughtStickersQuantity = in.nextInt();
 
-        if (tamanhoVetor <= 0) System.out.println("A quantidade de espaços do álbum tem que ser maior que 0.");
-
-        else if (quantidadeCompradas <= 0) System.out.println("A quantidade de figurinhas precisa ser maior que 0.");
-
-        else {
-            int[] vetor = new int[quantidadeCompradas];
-
-            for (int i = 0; i < vetor.length; i++) {
-                System.out.println("Informe uma figurinha que você tem: ");
-                vetor[i] = in.nextInt();
-            }
-
-            int cont = 0;
-
-            for (int i = 0; i < vetor.length; i++) {
-                int valorExiste = 0;
-                int valorCorrente = vetor[i];
-
-                for (int j = 0; j < vetor.length; j++) {
-                    int valorCorrenteComparacao = vetor[j];
-                    if (valorCorrente == valorCorrenteComparacao) if (i != j) valorExiste = 1;
-                }
-
-                if (valorExiste == 0) cont++;
-            }
-
-            if (quantidadeCompradas > tamanhoVetor) System.out.println("A quantidade de figurinhas faltantes é de " + (tamanhoVetor - cont - (quantidadeCompradas - tamanhoVetor)));
-            else System.out.println("A quantidade de figurinhas faltantes é de " + (tamanhoVetor - cont));
+        if (albumSize <= 0) {
+            System.out.println("A quantidade de espaços do álbum tem que ser maior que 0.");
+            return;
         }
+
+        if (boughtStickersQuantity <= 0) {
+            System.out.println("A quantidade de figurinhas precisa ser maior que 0.");
+            return;
+        }
+
+        int[] stickers = new int[boughtStickersQuantity];
+
+        for (int i = 0; i < stickers.length; i++) {
+            System.out.println("Informe uma figurinha que você tem: ");
+            stickers[i] = in.nextInt();
+        }
+
+        for (int i = 0; i < stickers.length; i++) {
+            isDuplicate = false;
+
+            for (int j = 0; j < i; j++) {
+                if (stickers[i] == stickers[j]) {
+                    isDuplicate = true;
+                    break;
+                }
+            }
+
+            if (!isDuplicate) {
+                uniqueStickersCount++;
+            }
+        }
+
+        missingStickers = albumSize - uniqueStickersCount;
+        System.out.println("A quantidade de figurinhas faltantes é de " + missingStickers);
     }
 }
